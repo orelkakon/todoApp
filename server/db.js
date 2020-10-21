@@ -1,5 +1,6 @@
 const mysql = require('mysql')
 
+//CR: Config
 const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',

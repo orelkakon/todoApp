@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const sql = require('mysql')
 
+//CR: Duplicate, is it used?
 const connection = sql.createConnection({
     host: 'localhost',
     port: '3306',

@@ -1,39 +1,49 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import TaskList from './taskList'
+//CR: Remove unneccesary imports from code
 
+//CR: Classes are old syntax, use functions and hooks
 class TaskManager extends React.Component {
+    //CR: initial state should be in constructor
     state = {
         task: '',
         taskList: [],
         backgroundColor2 : 'white',
         backgroundColor1 : 'yellow'
-    }
+    }        
     
     componentDidMount() {
         this.getTaskList()
     }
 
+    //CR: Use async await or then!
     onSubmitClick = () => {
+        //CR: Add routes to config
         fetch(`http://localhost:3001/addtask?tasks='${this.state.task}'`)
         this.getTaskList()
         this.setState({task: ''})
     }
 
+    //CR: NICE!
     getTaskList = () => {
         fetch('http://localhost:3001/tasks')
             .then(response => response.json())
             .then(response => this.setState({ taskList: response }))
     }
     
+    //CR: Never call componentDidMount by yourself, instead call this.getTaskList()
     onDoneClick = (task) => {
         fetch(`http://localhost:3001/marktask/${task.taskid}`)
         this.componentDidMount()
     }
 
     onDeleteAll = () => {
+        //CR: Foreach!
+        //CR: Too many fetch requests
         this.state.taskList.map( task => this.onDeleteClick(task.taskid) )
     }
 
+    //CR: Await
     onDeleteClick = (taskid) => {
         fetch(`http://localhost:3001/task/${taskid}`, {
             method: 'DELETE',
@@ -41,6 +51,7 @@ class TaskManager extends React.Component {
         this.getTaskList()
     }
 
+    //CR: Divide to components, Thinking in react
     render() {
         console.log(this.state.taskList)
         const styles = {
