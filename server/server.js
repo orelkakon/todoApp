@@ -1,13 +1,14 @@
+const config = require('./config')
 const express = require('express')
 const cors = require('cors')
 const sql = require('mysql')
 
 const connection = sql.createConnection({
-    host: 'localhost',
-    port: '3306',
-    user: 'root',
-    password: '207772922',
-    database: 'orelk',
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    password: config.password,
+    database: config.database,
 })
 
 const app = express();
@@ -53,17 +54,29 @@ app.get('/addtask', (req, res) => {
     })
 })
 
+//delete all tasks
+app.delete('/task/deleteAll', (req,res)=>{
+    const DELETE_ALL_TASK = `DELETE FROM tasks;`
+    connection.query(DELETE_ALL_TASK,(err, result)=>{
+        if (err) {
+            console.log(err)
+        } else {
+            res.send('deleted all')
+        } 
+    })      
+})
+
 app.delete('/task/:task', (req,res)=>{
     const DELETE_TASK = `DELETE FROM tasks WHERE (taskid = ${req.params.task});`
     connection.query(DELETE_TASK,(err, result)=>{
         if (err) {
             console.log(err)
         } else {
-            res.send('delted')
+            res.send('deleted')
         } 
     })      
 })
 
 app.listen(3001, () => {
-    console.log('server up')
+    console.log('server up!')
 })
